@@ -1,0 +1,47 @@
+== Et dans notre cas ?
+
+=== Test container
+
+Permet de créer une instance qui peut être lancée dans un container Docker -> Bases de données
+
+[source,java]
+----
+PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:13");
+----
+
+=== Une classe commune
+
+[source,java]
+----
+public abstract class AbstractIntegrationTest {
+
+	static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:13");
+
+	static {
+		postgres.withUsername(HUBCOMX)
+		        .withPassword(HUBCOMX)
+		        .withDatabaseName(HUBCOMX)
+		        .withReuse(true);
+
+		postgres.start();
+	}
+
+}
+----
+
+=== Qu'on utilise dans les IT
+
+[source,java]
+----
+@SpringBootTest
+class MonServiceIT extends AbstractIntegrationTest {
+
+	@Autowired
+	MonDAO monDAO;
+
+	@BeforeEach
+	void setUp() {
+		monDAO.deleteAll();
+	}
+}
+----

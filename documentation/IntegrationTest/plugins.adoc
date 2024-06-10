@@ -1,0 +1,36 @@
+== Plugins Maven
+
+2 plugins maven pour les tests `surefire` et `failsafe`
+
+[source,xml]
+----
+<plugins>
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+    </plugin>
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+    </plugin>
+</plugins>
+----
+
+=== Plugin Surefire
+
+* **surefire** : plugin pour les tests unitaires (TU)
+** Utilisé à l'étape **test** du cycle de vie maven
+** Convention de nommage par défaut :
+*** \**/Test*.java
+*** **/*Test.java
+*** **/*Tests.java
+*** **/*TestCase.java
+
+=== Plugin Failsafe
+
+* **failsafe** : plugin pour les tests d'intégrations (IT)
+** Utilisé à l'étape **test** mais vérifier à l'étape **verify** du cycle de vie maven
+** Convention de nommage par défaut :
+*** \**/IT*.java
+*** **/*IT.java
+*** **/*ITCase.java

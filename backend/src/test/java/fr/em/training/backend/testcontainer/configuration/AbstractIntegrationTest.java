@@ -1,6 +1,7 @@
 package fr.em.training.backend.testcontainer.configuration;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
@@ -12,11 +13,11 @@ public abstract class AbstractIntegrationTest {
 		postgres.start();
 	}
 
-	@BeforeAll
-	static void beforeAll() {
-		System.setProperty("spring.datasource.url", "jdbc:tc:postgresql:16:///test");
-		System.setProperty("spring.datasource.username", postgres.getUsername());
-		System.setProperty("spring.datasource.password", postgres.getPassword());
+	@DynamicPropertySource
+	static void configureProperties(DynamicPropertyRegistry registry) {
+		registry.add("spring.datasource.url", () -> "jdbc:tc:postgresql:16:///test");
+		registry.add("spring.datasource.username", postgres::getUsername);
+		registry.add("spring.datasource.password", postgres::getPassword);
 	}
 
 }
