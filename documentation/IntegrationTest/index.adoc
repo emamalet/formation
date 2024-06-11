@@ -6,6 +6,7 @@
 :revealjs_theme: white
 :revealjs_history: true
 :revealjs_width: 1200
+:imagesdir: images
 
 include::intro.adoc[]
 

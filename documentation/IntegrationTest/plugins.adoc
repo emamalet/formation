@@ -34,3 +34,13 @@
 *** \**/IT*.java
 *** **/*IT.java
 *** **/*ITCase.java
+
+=== Cycle de vie Maven
+
+image::cycle_de_vie_maven.png[]
+
+=== Phase verify
+
+image::verify_maven.png[]
+
+
