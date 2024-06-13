@@ -1,0 +1,77 @@
+== Tests unitaires VS tests d'intégrations
+
+=== Tests unitaires
+
+* Tester une **unité de code** (ie: une méthode public)
+** Tester **un retour** -> l'objet de retour
+** Tester **un appel** -> appel à un repository avec un paramètre précis
+** Tester **une condition** -> dans le cadre if/esle
+** Tester **une exception** -> dans le cadre d'un try/catch
+** On ne teste qu'une seule fonctionnalité
+** On veut utiliser des **mock** dans ce type de test
+
+=== Comment ça marche les TUs ?
+
+[source,java]
+----
+@ExtendWith(MockitoExtension.class)
+class ServiceTest {
+
+	@Mock
+	private MonRepository monRepository;
+
+	@InjectMock
+    private MonService monService;
+
+}
+----
+
+=== GIVEN WHEN THEN
+
+[source,java]
+----
+@Test
+void it_should_extract_referential_csv_file_from_rcv() {
+    //GIVEN a rcv content with a meta.csv file
+    Path destPath = createDestPath("workingDir/archive.rcv");
+    //WHEN extractionService.extractReferentiel() is called
+    ExtractionService.extractArchive(context, rcvFile, destPath);
+    //THEN it should extract the file meta.csv of the rcv to the specified folder
+    File extracted = destPath.resolve("meta.csv").toFile();
+    assertThat(extracted).exists();
+}
+----
+
+=== Tests d'intégrations
+
+* Tester compatibilité des composants
+** Tester de **bout en bout** (ex: Endpoint Rest)
+** Tester un **cas d'usage réaliste**
+** On teste l'interaction de plusieurs fonctionnalités
+** On ne veut **pas de mock** dans ce type de test
+
+=== Comment ça marche ?
+
+[source,java]
+----
+@SpringBootTest
+class ServiceIT {
+
+	@Autowired
+	MonService service;
+}
+----
+
+=== Comment ça marche ?
+
+[source,java]
+----
+	@Test
+	void it_should_recieve_archive_and_generate_production_xml() throws Exception {
+		AllianzDomContext allianzDomContext = createAllianzDomContext();
+
+		receptionService.computeAllianz(allianzDomContext);
+
+		assertProductionXmlAreIdentical();
+	}
+----
